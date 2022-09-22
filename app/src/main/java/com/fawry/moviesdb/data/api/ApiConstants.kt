@@ -2,7 +2,7 @@ package com.fawry.moviesdb.data.api
 
 object ApiConstants {
   const val BASE_ENDPOINT = "https://api.themoviedb.org/3/"
-  const val POPULAR_ENDPOINT = "movies/popular"
+  const val POPULAR_ENDPOINT = "movie/popular"
 }
 
 object ApiParameters {
