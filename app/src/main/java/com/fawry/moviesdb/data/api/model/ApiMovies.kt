@@ -1,5 +1,6 @@
 package com.fawry.moviesdb.data.api.model
 
+import com.fawry.moviesdb.domain.model.Movie
 import com.squareup.moshi.Json
 
 data class ApiMovies(
@@ -18,3 +19,22 @@ data class ApiMovies(
     @field:Json(name = "backdrop_path") val backdropPath: String?,
     @field:Json(name = "genre_ids") val genreIds: ArrayList<Long>?,
 )
+
+fun ApiMovies.mapToDomain(): Movie {
+    return Movie(
+        id ?: throw MappingException("Movie ID cannot be null"),
+        originalLanguage.orEmpty(),
+        originalTitle.orEmpty(),
+        overview.orEmpty(),
+        popularity ?: 0.0,
+        posterPath.orEmpty(),
+        releaseDate.orEmpty(),
+        title.orEmpty(),
+        video ?: false,
+        vote_average ?: 0.0,
+        voteCount ?: 0,
+        adult ?: false,
+        backdropPath.orEmpty(),
+        genreIds ?: arrayListOf()
+    )
+}

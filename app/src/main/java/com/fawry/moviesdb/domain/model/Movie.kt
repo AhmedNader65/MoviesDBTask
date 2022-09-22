@@ -1,7 +1,5 @@
 package com.fawry.moviesdb.domain.model
 
-import com.squareup.moshi.Json
-
 class Movie(
     val id: Long,
     val originalLanguage: String,
