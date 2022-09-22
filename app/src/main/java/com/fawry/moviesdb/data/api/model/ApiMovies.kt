@@ -37,6 +37,6 @@ fun ApiMovies.mapToDomain(): Movie {
         voteAverage ?: 0.0,
         voteCount ?: 0,
         adult ?: false,
-        ApiConstants.IMAGES_BASE + backdropPath.orEmpty()
+        ApiConstants.COVERS_BASE + backdropPath.orEmpty()
     )
 }

@@ -6,6 +6,5 @@ import javax.inject.Inject
 
 class GetMovieById @Inject constructor(private val moviesRepository: MoviesRepository) {
 
-    operator fun invoke() = moviesRepository.getMovies()
-        .filter { it.isNotEmpty() }
+    suspend operator fun invoke(movieId: Long) = moviesRepository.getMovieById(movieId)
 }

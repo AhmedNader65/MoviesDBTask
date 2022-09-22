@@ -28,6 +28,10 @@ class MoviesRepositoryImp @Inject constructor(
             }
     }
 
+    override suspend fun getMovieById(id: Long): Movie {
+        return cache.getMovieById(id).toDomain()
+    }
+
     override suspend fun requestMoreMovies(
         pageToLoad: Int
     ): PaginatedMovies {

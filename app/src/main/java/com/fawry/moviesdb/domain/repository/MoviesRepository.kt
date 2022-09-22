@@ -8,6 +8,8 @@ interface MoviesRepository {
 
     fun getMovies(): Flow<List<Movie>>
 
+    suspend fun getMovieById(id: Long): Movie
+
     suspend fun requestMoreMovies(
         pageToLoad: Int
     ): PaginatedMovies
