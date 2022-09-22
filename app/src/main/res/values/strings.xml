@@ -2,4 +2,6 @@
     <string name="app_name">MoviesDB</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="an_error_occurred">An error occured!</string>
+    <string name="no_more_movies">No more movies!</string>
 </resources>

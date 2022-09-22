@@ -1,5 +1,6 @@
 package com.fawry.moviesdb.data.api.model
 
+import com.fawry.moviesdb.data.api.ApiConstants
 import com.fawry.moviesdb.domain.model.Movie
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -29,13 +30,13 @@ fun ApiMovies.mapToDomain(): Movie {
         originalTitle.orEmpty(),
         overview.orEmpty(),
         popularity ?: 0.0,
-        posterPath.orEmpty(),
+        ApiConstants.IMAGES_BASE + posterPath.orEmpty(),
         releaseDate.orEmpty(),
         title.orEmpty(),
         video ?: false,
         voteAverage ?: 0.0,
         voteCount ?: 0,
         adult ?: false,
-        backdropPath.orEmpty()
+        ApiConstants.IMAGES_BASE + backdropPath.orEmpty()
     )
 }

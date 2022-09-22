@@ -89,6 +89,11 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$okHttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttp_version"
 
+    // UI
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+
     // Utils
     implementation "com.jakewharton.timber:timber:$timber_version"
 }

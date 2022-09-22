@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/moviesFragment"
         tools:layout="@layout/fragment_movies"
-        android:name="com.fawry.moviesdb.ui.MoviesFragment"
+        android:name="com.fawry.moviesdb.ui.main.MoviesFragment"
         android:label="MoviesFragment" />
 </navigation>

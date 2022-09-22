@@ -1,4 +1,4 @@
-package com.fawry.moviesdb.ui
+package com.fawry.moviesdb.ui.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
