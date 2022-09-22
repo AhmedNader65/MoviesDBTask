@@ -2,7 +2,9 @@ package com.fawry.moviesdb.data.api.model
 
 import com.fawry.moviesdb.domain.model.Movie
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class ApiMovies(
     @field:Json(name = "id") val id: Long?,
     @field:Json(name = "original_language") val originalLanguage: String?,
@@ -17,7 +19,7 @@ data class ApiMovies(
     @field:Json(name = "vote_count") val voteCount: Int?,
     @field:Json(name = "adult") val adult: Boolean?,
     @field:Json(name = "backdrop_path") val backdropPath: String?,
-    @field:Json(name = "genre_ids") val genreIds: ArrayList<Long>?,
+    @field:Json(name = "genre_ids") val genreIds: List<Long>?,
 )
 
 fun ApiMovies.mapToDomain(): Movie {
