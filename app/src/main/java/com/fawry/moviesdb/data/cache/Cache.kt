@@ -1,11 +1,11 @@
 package com.fawry.moviesdb.data.cache
 
 import com.fawry.moviesdb.data.cache.model.CachedMovie
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 interface Cache {
 
-    fun getMovies(): Flowable<List<CachedMovie>>
+    fun getMovies(): Flow<List<CachedMovie>>
 
     suspend fun storeMovies(movies: List<CachedMovie>)
 }

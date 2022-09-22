@@ -1,10 +1,10 @@
 package com.fawry.moviesdb.data.cache
 
 import com.fawry.moviesdb.data.cache.model.CachedMovie
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 class RoomCache : Cache {
-    override fun getMovies(): Flowable<List<CachedMovie>> {
+    override fun getMovies(): Flow<List<CachedMovie>> {
         TODO("Not yet implemented")
     }
 
