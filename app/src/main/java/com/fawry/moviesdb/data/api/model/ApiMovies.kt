@@ -13,7 +13,7 @@ data class ApiMovies(
     @field:Json(name = "release_date") val releaseDate: String?,
     @field:Json(name = "title") val title: String?,
     @field:Json(name = "video") val video: Boolean?,
-    @field:Json(name = "vote_average") val vote_average: Double?,
+    @field:Json(name = "vote_average") val voteAverage: Double?,
     @field:Json(name = "vote_count") val voteCount: Int?,
     @field:Json(name = "adult") val adult: Boolean?,
     @field:Json(name = "backdrop_path") val backdropPath: String?,
@@ -31,10 +31,9 @@ fun ApiMovies.mapToDomain(): Movie {
         releaseDate.orEmpty(),
         title.orEmpty(),
         video ?: false,
-        vote_average ?: 0.0,
+        voteAverage ?: 0.0,
         voteCount ?: 0,
         adult ?: false,
-        backdropPath.orEmpty(),
-        genreIds ?: arrayListOf()
+        backdropPath.orEmpty()
     )
 }
