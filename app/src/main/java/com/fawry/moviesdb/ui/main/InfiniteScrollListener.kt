@@ -1,10 +1,11 @@
 package com.fawry.moviesdb.ui.main
 
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class InfiniteScrollListener(
-    private val layoutManager: GridLayoutManager,
+    private val layoutManager: LinearLayoutManager,
 ) :
     RecyclerView.OnScrollListener() {
 

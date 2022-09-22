@@ -33,6 +33,7 @@ abstract class CacheModule {
           MoviesDatabase::class.java,
           "movies.db"
       )
+          .fallbackToDestructiveMigration()
           .build()
     }
 

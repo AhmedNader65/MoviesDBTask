@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.fawry.moviesdb.domain.model.Movie
 
 @Entity(tableName = "movies")
-class CachedMovie(
+data class CachedMovie(
     @PrimaryKey
     val movieId: Long,
     val originalLanguage: String,
@@ -20,6 +20,9 @@ class CachedMovie(
     val voteCount: Int,
     val adult: Boolean,
     val backdropPath: String,
+    var isPopular: Boolean = false,
+    var isTopRated: Boolean = false,
+    var isUpcoming: Boolean = false,
 ) {
     companion object {
         fun fromDomain(movie: Movie): CachedMovie {

@@ -11,10 +11,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fawry.moviesdb.R
 import com.fawry.moviesdb.databinding.FragmentMoviesBinding
+import com.fawry.moviesdb.domain.model.category.Category
+import com.fawry.moviesdb.domain.model.category.PopularCategory
+import com.fawry.moviesdb.domain.model.category.TopRatedCategory
+import com.fawry.moviesdb.domain.model.category.UpcomingCategory
 import com.fawry.moviesdb.ui.Event
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,38 +51,78 @@ class MoviesFragment : Fragment() {
     }
 
     private fun setupUI() {
-        val adapter = createAdapter()
-        setupRecyclerView(adapter)
-        subscribeToViewStateUpdates(adapter)
+        val popularAdapter = createAdapter()
+        val topRatedAdapter = createAdapter()
+        val upcomingAdapter = createAdapter()
+        setupPopularRecyclerView(popularAdapter)
+        setupTopRatedRecyclerView(topRatedAdapter)
+        setupUpcomingRecyclerView(upcomingAdapter)
+        subscribeToPopularViewStateUpdates(popularAdapter)
+        subscribeToTopRatedViewStateUpdates(topRatedAdapter)
+        subscribeToUpcomingViewStateUpdates(upcomingAdapter)
     }
 
 
-    private fun setupRecyclerView(moviesAdapter: MoviesAdapter) {
-        binding.moviesRecycler.apply {
+    private fun setupPopularRecyclerView(moviesAdapter: MoviesAdapter) {
+        binding.popularRecycler.apply {
             adapter = moviesAdapter
-            layoutManager = GridLayoutManager(requireContext(), ITEMS_PER_ROW)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             addOnScrollListener(
                 createInfiniteScrollListener(
-                    layoutManager
-                            as GridLayoutManager
+                    PopularCategory(), layoutManager
+                            as LinearLayoutManager
                 )
             )
         }
     }
 
-    private fun createInfiniteScrollListener(gridLayoutManager: GridLayoutManager): RecyclerView.OnScrollListener {
+    private fun setupTopRatedRecyclerView(moviesAdapter: MoviesAdapter) {
+        binding.topmoviesRecycler.apply {
+            adapter = moviesAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            addOnScrollListener(
+                createInfiniteScrollListener(
+                    TopRatedCategory(), layoutManager
+                            as LinearLayoutManager
+                )
+            )
+        }
+    }
+
+    private fun setupUpcomingRecyclerView(moviesAdapter: MoviesAdapter) {
+        binding.upcomingRecycler.apply {
+            adapter = moviesAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            addOnScrollListener(
+                createInfiniteScrollListener(
+                    UpcomingCategory(), layoutManager
+                            as LinearLayoutManager
+                )
+            )
+        }
+    }
+
+    private fun createInfiniteScrollListener(
+        category: Category,
+        gridLayoutManager: LinearLayoutManager
+    ): RecyclerView.OnScrollListener {
         return object : InfiniteScrollListener(
             gridLayoutManager,
         ) {
             override fun loadMoreItems() {
-                requestMoreMovies()
+                requestMoreMovies(category)
             }
 
             override fun isLoading(): Boolean =
                 viewModel.isLoadingMoreMovies
 
-            override fun isLastPage(): Boolean = viewModel.isLastPage
+            override fun isLastPage(): Boolean = viewModel.isLastPage(category)
         }
     }
 
@@ -90,10 +134,28 @@ class MoviesFragment : Fragment() {
         )
     })
 
-    private fun subscribeToViewStateUpdates(adapter: MoviesAdapter) {
+    private fun subscribeToPopularViewStateUpdates(adapter: MoviesAdapter) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect {
+                viewModel.popular.collect {
+                    updateScreenState(it, adapter)
+                }
+            }
+        }
+    }
+    private fun subscribeToTopRatedViewStateUpdates(adapter: MoviesAdapter) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.topRatedState.collect {
+                    updateScreenState(it, adapter)
+                }
+            }
+        }
+    }
+    private fun subscribeToUpcomingViewStateUpdates(adapter: MoviesAdapter) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.upcomingState.collect {
                     updateScreenState(it, adapter)
                 }
             }
@@ -129,11 +191,13 @@ class MoviesFragment : Fragment() {
     }
 
     private fun requestInitialMoviesList() {
-        viewModel.onEvent(MoviesEvent.RequestInitialMoviesList)
+        viewModel.onEvent(MoviesEvent.RequestInitialMoviesList(PopularCategory()))
+        viewModel.onEvent(MoviesEvent.RequestInitialMoviesList(UpcomingCategory()))
+        viewModel.onEvent(MoviesEvent.RequestInitialMoviesList(TopRatedCategory()))
     }
 
-    private fun requestMoreMovies() {
-        viewModel.onEvent(MoviesEvent.RequestMoreMovies)
+    private fun requestMoreMovies(category: Category) {
+        viewModel.onEvent(MoviesEvent.RequestMoreMovies(category))
     }
 
     override fun onDestroyView() {

@@ -7,4 +7,7 @@
     <string name="overview">Overview</string>
     <string name="original_name">Original title: </string>
     <string name="original_language">Original Language: </string>
+    <string name="upcoming">Upcoming Movies</string>
+    <string name="popular">Popular Movies</string>
+    <string name="toprated">Top Rated Movies</string>
 </resources>
