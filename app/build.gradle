@@ -63,6 +63,10 @@ dependencies {
     kaptTest("com.google.dagger:hilt-android-compiler:$hilt_version")
 
 
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
     // Utils
     implementation "com.jakewharton.timber:timber:$timber_version"
 }
