@@ -9,10 +9,10 @@ class RoomCache @Inject constructor(
     private val moviesDao: MoviesDao,
 ) : Cache {
     override fun getMovies(): Flow<List<CachedMovie>> {
-        TODO("Not yet implemented")
+        return moviesDao.getAllMovies()
     }
 
     override suspend fun storeMovies(movies: List<CachedMovie>) {
-        TODO("Not yet implemented")
+        moviesDao.insertMovie(*movies.toTypedArray())
     }
 }
