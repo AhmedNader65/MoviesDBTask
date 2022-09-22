@@ -7,7 +7,22 @@
 
     <fragment
         android:id="@+id/moviesFragment"
-        tools:layout="@layout/fragment_movies"
         android:name="com.fawry.moviesdb.ui.main.MoviesFragment"
-        android:label="MoviesFragment" />
+        android:label="MoviesFragment"
+        tools:layout="@layout/fragment_movies">
+        <action
+            android:id="@+id/action_moviesFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.fawry.moviesdb.ui.details.DetailsFragment"
+        android:label="DetailsFragment"
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="movieId"
+            app:argType="long" />
+    </fragment>
+
+
 </navigation>

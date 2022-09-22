@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fawry.moviesdb.databinding.ItemMovieBinding
 import com.fawry.moviesdb.ui.model.MovieUI
 
-class MoviesAdapter : ListAdapter<MovieUI, MoviesAdapter.MovieViewHolder>(ITEM_COMPARATOR) {
+class MoviesAdapter(val onMovieClickListener: MovieClickListener) : ListAdapter<MovieUI, MoviesAdapter.MovieViewHolder>(ITEM_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = ItemMovieBinding
@@ -27,10 +27,16 @@ class MoviesAdapter : ListAdapter<MovieUI, MoviesAdapter.MovieViewHolder>(ITEM_C
 
         fun bind(item: MovieUI) {
             binding.movie = item
+            binding.onClickListener = onMovieClickListener
             binding.executePendingBindings()
         }
     }
 
+    class MovieClickListener(val clickListener: (ui: MovieUI) -> Unit) {
+        fun onClick(uiMovieUI: MovieUI) {
+            clickListener(uiMovieUI)
+        }
+    }
 }
 
 

@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="onClickListener"
+            type="com.fawry.moviesdb.ui.main.MoviesAdapter.MovieClickListener" />
+
+        <variable
             name="movie"
             type="com.fawry.moviesdb.ui.model.MovieUI" />
     </data>
@@ -16,6 +20,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:onClick="@{()->onClickListener.onClick(movie)}"
         app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout

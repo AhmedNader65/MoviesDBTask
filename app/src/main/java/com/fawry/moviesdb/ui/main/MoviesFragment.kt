@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fawry.moviesdb.R
@@ -81,7 +82,13 @@ class MoviesFragment : Fragment() {
         }
     }
 
-    private fun createAdapter() = MoviesAdapter()
+    private fun createAdapter() = MoviesAdapter(MoviesAdapter.MovieClickListener {
+        findNavController().navigate(
+            MoviesFragmentDirections.actionMoviesFragmentToDetailsFragment(
+                it.id
+            )
+        )
+    })
 
     private fun subscribeToViewStateUpdates(adapter: MoviesAdapter) {
         viewLifecycleOwner.lifecycleScope.launch {
