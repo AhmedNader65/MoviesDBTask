@@ -39,7 +39,7 @@ class RoomCache @Inject constructor(
         return moviesDao.getMovieById(id)
     }
 
-    override suspend fun getCreatedAt(): Long {
+    override suspend fun getCreatedAt(): Long? {
         return moviesDao.getCreatedAt()
     }
 

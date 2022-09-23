@@ -5,22 +5,15 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.room.withTransaction
-import com.fawry.moviesdb.data.api.ApiParameters.FIRST_PAGE
 import com.fawry.moviesdb.data.api.MoviesApi
-import com.fawry.moviesdb.data.api.model.ApiMovies
 import com.fawry.moviesdb.data.api.model.mapToDomain
 import com.fawry.moviesdb.data.cache.Cache
-import com.fawry.moviesdb.data.cache.MoviesDatabase
-import com.fawry.moviesdb.data.cache.RoomCache
 import com.fawry.moviesdb.data.cache.model.CachedMovie
-import com.fawry.moviesdb.data.cache.model.toDomain
 import com.fawry.moviesdb.domain.model.category.Category
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
@@ -33,7 +26,8 @@ class MoviesRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(4, TimeUnit.HOURS)
-        return if (System.currentTimeMillis() - cache.getCreatedAt() <= cacheTimeout) {
+        val lastUpdate = cache.getCreatedAt()?: 0L
+        return if (System.currentTimeMillis() - lastUpdate <= cacheTimeout) {
             // Cached data is up-to-date, so there is no need to re-fetch
             // from the network.
             InitializeAction.SKIP_INITIAL_REFRESH

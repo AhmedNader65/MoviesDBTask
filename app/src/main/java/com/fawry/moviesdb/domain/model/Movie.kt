@@ -14,5 +14,4 @@ class Movie(
     val voteCount: Int,
     val adult: Boolean,
     val backdropPath: String
-) {
-}
+)

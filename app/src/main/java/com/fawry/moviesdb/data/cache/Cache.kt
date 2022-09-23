@@ -17,7 +17,7 @@ interface Cache {
 
     suspend fun getMovieById(id: Long): CachedMovie?
 
-    suspend fun getCreatedAt(): Long
+    suspend fun getCreatedAt(): Long?
 
     suspend fun storeMovies(vararg movie: CachedMovie)
     suspend fun deleteAll()

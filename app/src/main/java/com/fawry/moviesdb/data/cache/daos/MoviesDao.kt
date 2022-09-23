@@ -32,7 +32,7 @@ abstract class MoviesDao {
     abstract suspend fun getMovieById(id: Long): CachedMovie?
 
     @Query("SELECT createdAt FROM movies order by id ASC LIMIT 1")
-    abstract suspend fun getCreatedAt() : Long
+    abstract suspend fun getCreatedAt() : Long?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertMovie(vararg movie: CachedMovie)
