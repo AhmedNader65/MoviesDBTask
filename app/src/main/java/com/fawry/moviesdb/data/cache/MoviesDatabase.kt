@@ -9,7 +9,7 @@ import com.fawry.moviesdb.data.cache.model.CachedMovie
     entities = [
         CachedMovie::class
     ],
-    version = 2
+    version = 1
 )
 abstract class MoviesDatabase : RoomDatabase() {
     abstract fun moviesDao(): MoviesDao

@@ -1,6 +1,7 @@
 package com.fawry.moviesdb.data
 
 import androidx.paging.*
+import com.fawry.moviesdb.data.api.ApiParameters.PAGE_SIZE
 import com.fawry.moviesdb.data.api.MoviesApi
 import com.fawry.moviesdb.data.api.model.mapToDomain
 import com.fawry.moviesdb.data.cache.Cache
@@ -26,7 +27,7 @@ class MoviesRepositoryImp @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun getMovies(category: Category): Flow<PagingData<Movie>> {
         val pager = Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(pageSize = PAGE_SIZE),
             remoteMediator = MoviesRemoteMediator(
                 category, cache, api
             )
