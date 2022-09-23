@@ -12,10 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fawry.moviesdb.databinding.FragmentMoviesBinding
-import com.fawry.moviesdb.ui.model.MovieUI
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -28,7 +26,8 @@ class MoviesFragment : Fragment() {
 
     private var _binding: FragmentMoviesBinding? = null
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
@@ -53,7 +52,6 @@ class MoviesFragment : Fragment() {
         subscribeToUpcomingViewStateUpdates(upcomingAdapter)
     }
 
-
     private fun setupPopularRecyclerView(moviesAdapter: MoviesAdapter) {
         binding.popularRecycler.apply {
             adapter = moviesAdapter
@@ -69,7 +67,6 @@ class MoviesFragment : Fragment() {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
-
         }
     }
 
@@ -82,13 +79,15 @@ class MoviesFragment : Fragment() {
         }
     }
 
-    private fun createAdapter() = MoviesAdapter(MoviesAdapter.MovieClickListener {
-        findNavController().navigate(
-            MoviesFragmentDirections.actionMoviesFragmentToDetailsFragment(
-                it.id
+    private fun createAdapter() = MoviesAdapter(
+        MoviesAdapter.MovieClickListener {
+            findNavController().navigate(
+                MoviesFragmentDirections.actionMoviesFragmentToDetailsFragment(
+                    it.id
+                )
             )
-        )
-    }).also {
+        }
+    ).also {
 
         it.addLoadStateListener { loadState ->
 

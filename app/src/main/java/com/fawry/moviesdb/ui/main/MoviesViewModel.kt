@@ -13,7 +13,10 @@ import com.fawry.moviesdb.domain.usecases.GetMovies
 import com.fawry.moviesdb.ui.model.MovieUI
 import com.fawry.moviesdb.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +24,6 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val getMovies: GetMovies,
 ) : ViewModel() {
-
 
     private val _topRatedState = MutableStateFlow<PagingData<MovieUI>?>(null)
     val topRatedState: StateFlow<PagingData<MovieUI>?> =
@@ -55,7 +57,6 @@ class MoviesViewModel @Inject constructor(
                 .collect {
                     onNewMoviesList(category, it)
                 }
-
         }
     }
 
@@ -73,6 +74,4 @@ class MoviesViewModel @Inject constructor(
             }
         }
     }
-
 }
-

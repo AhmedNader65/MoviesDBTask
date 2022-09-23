@@ -1,10 +1,10 @@
 package com.fawry.moviesdb.data.paging
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.fawry.moviesdb.data.api.ApiParameters.PAGE_SIZE
 import com.fawry.moviesdb.data.api.MoviesApi
 import com.fawry.moviesdb.data.api.model.mapToDomain
 import com.fawry.moviesdb.data.cache.Cache
@@ -23,10 +23,9 @@ class MoviesRemoteMediator(
     private val moviesApi: MoviesApi
 ) : RemoteMediator<Int, CachedMovie>() {
 
-
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(4, TimeUnit.HOURS)
-        val lastUpdate = cache.getCreatedAt()?: 0L
+        val lastUpdate = cache.getCreatedAt() ?: 0L
         return if (System.currentTimeMillis() - lastUpdate <= cacheTimeout) {
             // Cached data is up-to-date, so there is no need to re-fetch
             // from the network.
@@ -38,7 +37,6 @@ class MoviesRemoteMediator(
             InitializeAction.LAUNCH_INITIAL_REFRESH
         }
     }
-
 
     override suspend fun load(
         loadType: LoadType,
@@ -53,8 +51,7 @@ class MoviesRemoteMediator(
                 LoadType.APPEND -> {
                     withContext(Dispatchers.IO) {
                         val count = category.getItemsCount(cache)
-                        Log.e("TAG", "load: $count")
-                        return@withContext (count / 20) + 1
+                        return@withContext (count / PAGE_SIZE) + 1
                     }
                 }
             }

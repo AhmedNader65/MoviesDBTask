@@ -3,8 +3,6 @@ package com.fawry.moviesdb.data.cache
 import androidx.paging.PagingSource
 import com.fawry.moviesdb.data.cache.daos.MoviesDao
 import com.fawry.moviesdb.data.cache.model.CachedMovie
-import com.fawry.moviesdb.domain.model.category.Category
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RoomCache @Inject constructor(
@@ -33,7 +31,6 @@ class RoomCache @Inject constructor(
     override suspend fun getUpcomingMoviesCount(): Int {
         return moviesDao.getUpcomingMoviesCount()
     }
-
 
     override suspend fun getMovieById(id: Long): CachedMovie? {
         return moviesDao.getMovieById(id)

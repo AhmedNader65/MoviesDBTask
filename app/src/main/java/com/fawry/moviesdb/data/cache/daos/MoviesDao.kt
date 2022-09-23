@@ -1,14 +1,14 @@
 package com.fawry.moviesdb.data.cache.daos
 
 import androidx.paging.PagingSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.fawry.moviesdb.data.cache.model.CachedMovie
-import com.fawry.moviesdb.domain.model.category.Category
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class MoviesDao {
-
 
     @Query("SELECT COUNT(movieId) FROM movies where isPopular = 1")
     abstract suspend fun getPopularMoviesCount(): Int
@@ -32,12 +32,11 @@ abstract class MoviesDao {
     abstract suspend fun getMovieById(id: Long): CachedMovie?
 
     @Query("SELECT createdAt FROM movies order by id ASC LIMIT 1")
-    abstract suspend fun getCreatedAt() : Long?
+    abstract suspend fun getCreatedAt(): Long?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertMovie(vararg movie: CachedMovie)
 
     @Query("DELETE FROM movies ")
     abstract suspend fun deleteAll()
-
 }

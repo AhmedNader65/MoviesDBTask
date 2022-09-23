@@ -23,7 +23,8 @@ class DetailsFragment : Fragment() {
     private val args by navArgs<DetailsFragmentArgs>()
     private var _binding: FragmentDetailsBinding? = null
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
@@ -35,12 +36,10 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         viewModel.getMovieDetails(args.movieId)
-
     }
 
     private fun setupUI() {
         subscribeToViewStateUpdates()
-
     }
 
     private fun subscribeToViewStateUpdates() {
@@ -57,7 +56,6 @@ class DetailsFragment : Fragment() {
         binding.progressBar.isVisible = state.loading
         state.movie?.let { binding.movie = state.movie }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

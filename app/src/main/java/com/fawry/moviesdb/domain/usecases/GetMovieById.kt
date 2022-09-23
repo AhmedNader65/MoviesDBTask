@@ -1,7 +1,6 @@
 package com.fawry.moviesdb.domain.usecases
 
 import com.fawry.moviesdb.domain.repository.MoviesRepository
-import kotlinx.coroutines.flow.filter
 import javax.inject.Inject
 
 class GetMovieById @Inject constructor(private val moviesRepository: MoviesRepository) {

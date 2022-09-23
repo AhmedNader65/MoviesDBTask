@@ -1,6 +1,5 @@
 package com.fawry.moviesdb.data.cache.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.fawry.moviesdb.domain.model.Movie
@@ -25,8 +24,8 @@ data class CachedMovie(
     var isPopular: Boolean = false,
     var isTopRated: Boolean = false,
     var isUpcoming: Boolean = false,
-    val createdAt: Long= System.currentTimeMillis(),
-    var modifiedAt: Long =System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    var modifiedAt: Long = System.currentTimeMillis()
 ) {
     companion object {
         fun fromDomain(movie: Movie): CachedMovie {

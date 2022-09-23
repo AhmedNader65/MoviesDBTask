@@ -3,7 +3,6 @@ package com.fawry.moviesdb.ui.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.fawry.moviesdb.databinding.ItemMovieBinding
@@ -40,7 +39,6 @@ class MoviesAdapter(val onMovieClickListener: MovieClickListener) :
         }
     }
 }
-
 
 private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<MovieUI>() {
     override fun areItemsTheSame(oldItem: MovieUI, newItem: MovieUI): Boolean {

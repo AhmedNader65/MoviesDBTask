@@ -4,7 +4,6 @@ import com.fawry.moviesdb.data.api.ApiConstants
 import com.fawry.moviesdb.data.api.MoviesApi
 import com.fawry.moviesdb.data.api.interceptors.LoggingInterceptor
 import com.fawry.moviesdb.data.api.interceptors.NetworkStatusInterceptor
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

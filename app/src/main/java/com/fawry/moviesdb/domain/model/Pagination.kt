@@ -17,7 +17,6 @@ data class Pagination(
         get() = totalPages == UNKNOWN_TOTAL || currentPage < totalPages
 }
 
-
 data class PaginatedMovies(
     val products: List<Movie>,
     val pagination: Pagination

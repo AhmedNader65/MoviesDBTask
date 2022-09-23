@@ -18,29 +18,28 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class CacheModule {
 
-  @Binds
-  abstract fun bindCache(cache: RoomCache): Cache
+    @Binds
+    abstract fun bindCache(cache: RoomCache): Cache
 
-  companion object {
+    companion object {
 
-    @Provides
-    @Singleton
-    fun provideDatabase(
-        @ApplicationContext context: Context
-    ): MoviesDatabase {
-      return Room.databaseBuilder(
-          context,
-          MoviesDatabase::class.java,
-          "movies.db"
-      )
-          .fallbackToDestructiveMigration()
-          .build()
+        @Provides
+        @Singleton
+        fun provideDatabase(
+            @ApplicationContext context: Context
+        ): MoviesDatabase {
+            return Room.databaseBuilder(
+                context,
+                MoviesDatabase::class.java,
+                "movies.db"
+            )
+                .fallbackToDestructiveMigration()
+                .build()
+        }
+
+        @Provides
+        fun provideMoviesDao(
+            petSaveDatabase: MoviesDatabase
+        ): MoviesDao = petSaveDatabase.moviesDao()
     }
-
-    @Provides
-    fun provideMoviesDao(
-        petSaveDatabase: MoviesDatabase
-    ): MoviesDao = petSaveDatabase.moviesDao()
-
-  }
 }

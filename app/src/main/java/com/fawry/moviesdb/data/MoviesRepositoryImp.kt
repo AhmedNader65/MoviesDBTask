@@ -1,6 +1,10 @@
 package com.fawry.moviesdb.data
 
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.fawry.moviesdb.data.api.ApiParameters.PAGE_SIZE
 import com.fawry.moviesdb.data.api.MoviesApi
 import com.fawry.moviesdb.data.cache.Cache
@@ -34,5 +38,4 @@ class MoviesRepositoryImp @Inject constructor(
     override suspend fun getMovieById(id: Long): Movie {
         return cache.getMovieById(id)!!.toDomain()
     }
-
 }

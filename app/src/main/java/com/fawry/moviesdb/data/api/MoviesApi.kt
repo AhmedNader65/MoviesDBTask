@@ -24,5 +24,4 @@ interface MoviesApi {
         @Query(ApiParameters.PAGE) pageToLoad: Long,
         @Query(ApiParameters.API_KEY) apiKey: String = BuildConfig.API_KEY
     ): ApiPaginatedMovies
-
 }

@@ -2,8 +2,6 @@ package com.fawry.moviesdb.data.cache
 
 import androidx.paging.PagingSource
 import com.fawry.moviesdb.data.cache.model.CachedMovie
-import com.fawry.moviesdb.domain.model.category.Category
-import kotlinx.coroutines.flow.Flow
 
 interface Cache {
 

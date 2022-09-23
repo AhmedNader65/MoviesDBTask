@@ -10,5 +10,4 @@ interface MoviesRepository {
     suspend fun getMovies(category: Category): Flow<PagingData<Movie>>
 
     suspend fun getMovieById(id: Long): Movie
-
 }
