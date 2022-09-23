@@ -3,7 +3,6 @@ package com.fawry.moviesdb.ui.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fawry.moviesdb.domain.usecases.GetMovieById
-import com.fawry.moviesdb.ui.main.MoviesViewState
 import com.fawry.moviesdb.ui.model.MovieDetailsUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

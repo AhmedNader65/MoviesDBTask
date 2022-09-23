@@ -13,4 +13,5 @@ object ApiParameters {
   const val API_KEY = "api_key"
   // MOVIE
   const val PAGE = "page"
+  const val FIRST_PAGE = 0L
 }

@@ -9,19 +9,19 @@ interface MoviesApi {
 
     @GET(ApiConstants.POPULAR_ENDPOINT)
     suspend fun getPopularMovies(
-        @Query(ApiParameters.PAGE) pageToLoad: Int,
+        @Query(ApiParameters.PAGE) pageToLoad: Long,
         @Query(ApiParameters.API_KEY) apiKey: String = BuildConfig.API_KEY
     ): ApiPaginatedMovies
 
     @GET(ApiConstants.TOP_RATED_ENDPOINT)
     suspend fun getTopRatedMovies(
-        @Query(ApiParameters.PAGE) pageToLoad: Int,
+        @Query(ApiParameters.PAGE) pageToLoad: Long,
         @Query(ApiParameters.API_KEY) apiKey: String = BuildConfig.API_KEY
     ): ApiPaginatedMovies
 
     @GET(ApiConstants.UP_COMING_ENDPOINT)
     suspend fun getUpComingMovies(
-        @Query(ApiParameters.PAGE) pageToLoad: Int,
+        @Query(ApiParameters.PAGE) pageToLoad: Long,
         @Query(ApiParameters.API_KEY) apiKey: String = BuildConfig.API_KEY
     ): ApiPaginatedMovies
 

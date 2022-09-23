@@ -6,7 +6,8 @@ import com.fawry.moviesdb.domain.model.Movie
 
 @Entity(tableName = "movies")
 data class CachedMovie(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    val id: Long? = 0,
     val movieId: Long,
     val originalLanguage: String,
     val originalTitle: String,
@@ -27,6 +28,7 @@ data class CachedMovie(
     companion object {
         fun fromDomain(movie: Movie): CachedMovie {
             return CachedMovie(
+                null,
                 movie.id,
                 movie.originalLanguage,
                 movie.originalTitle,

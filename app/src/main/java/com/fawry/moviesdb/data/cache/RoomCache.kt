@@ -1,5 +1,6 @@
 package com.fawry.moviesdb.data.cache
 
+import androidx.paging.PagingSource
 import com.fawry.moviesdb.data.cache.daos.MoviesDao
 import com.fawry.moviesdb.data.cache.model.CachedMovie
 import com.fawry.moviesdb.domain.model.category.Category
@@ -9,23 +10,40 @@ import javax.inject.Inject
 class RoomCache @Inject constructor(
     private val moviesDao: MoviesDao,
 ) : Cache {
-    override fun getPopularMovies(): Flow<List<CachedMovie>> {
-        return moviesDao.getPopularMovies()
+    override fun getPopularPagingSource(): PagingSource<Int, CachedMovie> {
+        return moviesDao.popularPagingSource()
     }
 
-    override fun getTopRatedMovies(): Flow<List<CachedMovie>> {
-        return moviesDao.getTopRatedMovies()
+    override fun getUpcomingPagingSource(): PagingSource<Int, CachedMovie> {
+        return moviesDao.upcomingPagingSource()
     }
 
-    override fun getUpcomingMovies(): Flow<List<CachedMovie>> {
-        return moviesDao.getUpcomingMovies()
+    override fun getTopRatedPagingSource(): PagingSource<Int, CachedMovie> {
+        return moviesDao.topRatedPagingSource()
     }
+
+    override suspend fun getPopularMoviesCount(): Int {
+        return moviesDao.getPopularMoviesCount()
+    }
+
+    override suspend fun getTopRatedMoviesCount(): Int {
+        return moviesDao.getTopRatedMoviesCount()
+    }
+
+    override suspend fun getUpcomingMoviesCount(): Int {
+        return moviesDao.getUpcomingMoviesCount()
+    }
+
 
     override suspend fun getMovieById(id: Long): CachedMovie? {
         return moviesDao.getMovieById(id)
     }
 
-    override suspend fun storeMovies(movie:CachedMovie) {
-        moviesDao.insertMovie(movie)
+    override suspend fun storeMovies(vararg movie: CachedMovie) {
+        moviesDao.insertMovie(*movie)
+    }
+
+    override suspend fun deleteAll() {
+        moviesDao.deleteAll()
     }
 }

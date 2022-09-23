@@ -1,16 +1,22 @@
 package com.fawry.moviesdb.data.cache
 
+import androidx.paging.PagingSource
 import com.fawry.moviesdb.data.cache.model.CachedMovie
 import com.fawry.moviesdb.domain.model.category.Category
 import kotlinx.coroutines.flow.Flow
 
 interface Cache {
 
-    fun getPopularMovies(): Flow<List<CachedMovie>>
-    fun getTopRatedMovies(): Flow<List<CachedMovie>>
-    fun getUpcomingMovies(): Flow<List<CachedMovie>>
+    fun getPopularPagingSource(): PagingSource<Int, CachedMovie>
+    fun getUpcomingPagingSource(): PagingSource<Int, CachedMovie>
+    fun getTopRatedPagingSource(): PagingSource<Int, CachedMovie>
+
+    suspend fun getPopularMoviesCount(): Int
+    suspend fun getTopRatedMoviesCount(): Int
+    suspend fun getUpcomingMoviesCount(): Int
 
     suspend fun getMovieById(id: Long): CachedMovie?
 
-    suspend fun storeMovies(movie :CachedMovie)
+    suspend fun storeMovies(vararg movie: CachedMovie)
+    suspend fun deleteAll()
 }

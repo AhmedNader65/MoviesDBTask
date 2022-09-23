@@ -11,25 +11,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.fawry.moviesdb.R
 import com.fawry.moviesdb.databinding.FragmentMoviesBinding
-import com.fawry.moviesdb.domain.model.category.Category
-import com.fawry.moviesdb.domain.model.category.PopularCategory
-import com.fawry.moviesdb.domain.model.category.TopRatedCategory
-import com.fawry.moviesdb.domain.model.category.UpcomingCategory
-import com.fawry.moviesdb.ui.Event
+import com.fawry.moviesdb.ui.model.MovieUI
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MoviesFragment : Fragment() {
-
-    companion object {
-        private const val ITEMS_PER_ROW = 2
-    }
 
     private val viewModel: MoviesViewModel by viewModels()
     private val binding get() = _binding!!
@@ -47,7 +39,6 @@ class MoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
-        requestInitialMoviesList()
     }
 
     private fun setupUI() {
@@ -57,8 +48,8 @@ class MoviesFragment : Fragment() {
         setupPopularRecyclerView(popularAdapter)
         setupTopRatedRecyclerView(topRatedAdapter)
         setupUpcomingRecyclerView(upcomingAdapter)
-        subscribeToPopularViewStateUpdates(popularAdapter)
         subscribeToTopRatedViewStateUpdates(topRatedAdapter)
+        subscribeToPopularViewStateUpdates(popularAdapter)
         subscribeToUpcomingViewStateUpdates(upcomingAdapter)
     }
 
@@ -69,12 +60,6 @@ class MoviesFragment : Fragment() {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
-            addOnScrollListener(
-                createInfiniteScrollListener(
-                    PopularCategory(), layoutManager
-                            as LinearLayoutManager
-                )
-            )
         }
     }
 
@@ -84,12 +69,7 @@ class MoviesFragment : Fragment() {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
-            addOnScrollListener(
-                createInfiniteScrollListener(
-                    TopRatedCategory(), layoutManager
-                            as LinearLayoutManager
-                )
-            )
+
         }
     }
 
@@ -99,30 +79,6 @@ class MoviesFragment : Fragment() {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
-            addOnScrollListener(
-                createInfiniteScrollListener(
-                    UpcomingCategory(), layoutManager
-                            as LinearLayoutManager
-                )
-            )
-        }
-    }
-
-    private fun createInfiniteScrollListener(
-        category: Category,
-        gridLayoutManager: LinearLayoutManager
-    ): RecyclerView.OnScrollListener {
-        return object : InfiniteScrollListener(
-            gridLayoutManager,
-        ) {
-            override fun loadMoreItems() {
-                requestMoreMovies(category)
-            }
-
-            override fun isLoading(): Boolean =
-                viewModel.isLoadingMoreMovies
-
-            override fun isLastPage(): Boolean = viewModel.isLastPage(category)
         }
     }
 
@@ -132,72 +88,57 @@ class MoviesFragment : Fragment() {
                 it.id
             )
         )
-    })
+    }).also {
+
+        it.addLoadStateListener { loadState ->
+
+            binding.progressBar.isVisible =
+                loadState.mediator?.refresh is LoadState.Loading
+            val errorState = when {
+                loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+                else -> null
+            }
+            errorState?.let {
+                Snackbar.make(
+                    requireView(),
+                    it.error.localizedMessage.toString(),
+                    Snackbar.LENGTH_SHORT
+                )
+                    .show()
+            }
+        }
+    }
 
     private fun subscribeToPopularViewStateUpdates(adapter: MoviesAdapter) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.popular.collect {
-                    updateScreenState(it, adapter)
+                    it?.let { it1 -> adapter.submitData(it1) }
                 }
             }
         }
     }
+
     private fun subscribeToTopRatedViewStateUpdates(adapter: MoviesAdapter) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.topRatedState.collect {
-                    updateScreenState(it, adapter)
+                    it?.let { it1 -> adapter.submitData(it1) }
                 }
             }
         }
     }
+
     private fun subscribeToUpcomingViewStateUpdates(adapter: MoviesAdapter) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.upcomingState.collect {
-                    updateScreenState(it, adapter)
+                    it?.let { it1 -> adapter.submitData(it1) }
                 }
             }
         }
-    }
-
-    private fun updateScreenState(state: MoviesViewState, adapter: MoviesAdapter) {
-        binding.progressBar.isVisible = state.loading
-        adapter.submitList(state.movies)
-        handleNoMoreMovies(state.noMoreMovies)
-        handleFailures(state.failure)
-    }
-
-    private fun handleFailures(failure: Event<Throwable>?) {
-        val unhandledFailure = failure?.getContentIfNotHandled() ?: return
-
-        val fallbackMessage = getString(R.string.an_error_occurred)
-        val snackbarMessage = if (unhandledFailure.message.isNullOrEmpty()) {
-            fallbackMessage
-        } else {
-            unhandledFailure.message!!
-        }
-
-        if (snackbarMessage.isNotEmpty()) {
-            Snackbar.make(requireView(), snackbarMessage, Snackbar.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun handleNoMoreMovies(noMoreMovies: Boolean) {
-        if (noMoreMovies)
-            Snackbar.make(requireView(), R.string.no_more_movies, Snackbar.LENGTH_SHORT).show()
-
-    }
-
-    private fun requestInitialMoviesList() {
-        viewModel.onEvent(MoviesEvent.RequestInitialMoviesList(PopularCategory()))
-        viewModel.onEvent(MoviesEvent.RequestInitialMoviesList(UpcomingCategory()))
-        viewModel.onEvent(MoviesEvent.RequestInitialMoviesList(TopRatedCategory()))
-    }
-
-    private fun requestMoreMovies(category: Category) {
-        viewModel.onEvent(MoviesEvent.RequestMoreMovies(category))
     }
 
     override fun onDestroyView() {

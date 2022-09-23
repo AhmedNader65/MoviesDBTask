@@ -7,6 +7,5 @@ import javax.inject.Inject
 
 class GetMovies @Inject constructor(private val moviesRepository: MoviesRepository) {
 
-    operator fun invoke(category: Category) = moviesRepository.getMovies(category)
-        .filter { it.isNotEmpty() }
+    suspend operator fun invoke(category: Category) = moviesRepository.getMovies(category)
 }

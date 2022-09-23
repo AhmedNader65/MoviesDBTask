@@ -2,13 +2,15 @@ package com.fawry.moviesdb.ui.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.fawry.moviesdb.databinding.ItemMovieBinding
 import com.fawry.moviesdb.ui.model.MovieUI
 
-class MoviesAdapter(val onMovieClickListener: MovieClickListener) : ListAdapter<MovieUI, MoviesAdapter.MovieViewHolder>(ITEM_COMPARATOR) {
+class MoviesAdapter(val onMovieClickListener: MovieClickListener) :
+    PagingDataAdapter<MovieUI, MoviesAdapter.MovieViewHolder>(ITEM_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = ItemMovieBinding
@@ -19,7 +21,7 @@ class MoviesAdapter(val onMovieClickListener: MovieClickListener) : ListAdapter<
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item!!)
     }
 
     inner class MovieViewHolder(private val binding: ItemMovieBinding) :

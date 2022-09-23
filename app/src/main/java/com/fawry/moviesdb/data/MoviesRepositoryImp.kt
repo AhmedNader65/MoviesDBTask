@@ -1,10 +1,12 @@
 package com.fawry.moviesdb.data
 
+import androidx.paging.*
 import com.fawry.moviesdb.data.api.MoviesApi
 import com.fawry.moviesdb.data.api.model.mapToDomain
 import com.fawry.moviesdb.data.cache.Cache
 import com.fawry.moviesdb.data.cache.model.CachedMovie
 import com.fawry.moviesdb.data.cache.model.toDomain
+import com.fawry.moviesdb.data.paging.MoviesRemoteMediator
 import com.fawry.moviesdb.domain.model.Movie
 import com.fawry.moviesdb.domain.model.NetworkException
 import com.fawry.moviesdb.domain.model.PaginatedMovies
@@ -21,40 +23,21 @@ class MoviesRepositoryImp @Inject constructor(
     private val api: MoviesApi
 ) : MoviesRepository {
 
-    override fun getMovies(category: Category): Flow<List<Movie>> {
-        return category.getCache(cache)
-            .distinctUntilChanged() // ensures only events with new information get to the subscriber.
-            .map { moviesList ->
-                moviesList.map { it.toDomain() }
-            }
+    @OptIn(ExperimentalPagingApi::class)
+    override suspend fun getMovies(category: Category): Flow<PagingData<Movie>> {
+        val pager = Pager(
+            config = PagingConfig(pageSize = 20),
+            remoteMediator = MoviesRemoteMediator(
+                category, cache, api
+            )
+        ) {
+            category.getCache(cache)
+        }
+        return pager.flow.map { data -> data.map { it.toDomain() } }
     }
 
     override suspend fun getMovieById(id: Long): Movie {
         return cache.getMovieById(id)!!.toDomain()
     }
 
-    override suspend fun requestMoreMovies(
-        category: Category,
-        pageToLoad: Int
-    ): PaginatedMovies {
-        try {
-
-            val results = category.apiCall(api, pageToLoad)
-            return results.mapToDomain()
-        } catch (exception: HttpException) {
-            throw NetworkException(exception.message ?: "Code ${exception.code()}")
-        }
-    }
-
-    override suspend fun storeMovies(category: Category, movies: List<Movie>) {
-        movies.forEach {
-            val itemFromDB = cache.getMovieById(it.id)
-            if (itemFromDB == null) {
-                val updated = category.setCacheCategoryValue(CachedMovie.fromDomain(it))
-                cache.storeMovies(updated)
-            } else {
-                cache.storeMovies(itemFromDB)
-            }
-        }
-    }
 }
