@@ -26,17 +26,4 @@ abstract class MoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertMovie(vararg movie: CachedMovie)
 
-
-    suspend fun insertOrUpdateMovie(category: Category, vararg movie: CachedMovie) {
-        movie.forEach {
-            val itemFromDB = getMovieById(it.movieId)
-            if (itemFromDB == null) {
-                val updated = category.setCacheCategoryValue(it)
-                insertMovie(updated)
-            } else {
-                insertMovie(itemFromDB)
-            }
-        }
-    }
-
 }

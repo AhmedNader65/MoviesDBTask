@@ -12,5 +12,5 @@ interface Cache {
 
     suspend fun getMovieById(id: Long): CachedMovie?
 
-    suspend fun storeMovies(category: Category, movies: List<CachedMovie>)
+    suspend fun storeMovies(movie :CachedMovie)
 }

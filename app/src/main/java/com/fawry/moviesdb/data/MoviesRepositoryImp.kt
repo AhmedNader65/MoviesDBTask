@@ -46,7 +46,15 @@ class MoviesRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun storeMovies(category: Category,movies: List<Movie>) {
-        cache.storeMovies(category,movies.map { CachedMovie.fromDomain(it) })
+    override suspend fun storeMovies(category: Category, movies: List<Movie>) {
+        movies.forEach {
+            val itemFromDB = cache.getMovieById(it.id)
+            if (itemFromDB == null) {
+                val updated = category.setCacheCategoryValue(CachedMovie.fromDomain(it))
+                cache.storeMovies(updated)
+            } else {
+                cache.storeMovies(itemFromDB)
+            }
+        }
     }
 }

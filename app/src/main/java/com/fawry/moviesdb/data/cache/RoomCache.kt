@@ -25,7 +25,7 @@ class RoomCache @Inject constructor(
         return moviesDao.getMovieById(id)
     }
 
-    override suspend fun storeMovies(category: Category,movies: List<CachedMovie>) {
-        moviesDao.insertOrUpdateMovie(category ,*movies.toTypedArray())
+    override suspend fun storeMovies(movie:CachedMovie) {
+        moviesDao.insertMovie(movie)
     }
 }
