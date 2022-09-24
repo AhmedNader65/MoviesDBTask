@@ -5,10 +5,12 @@ import com.fawry.moviesdb.data.api.MoviesApi
 import com.fawry.moviesdb.data.api.model.ApiPaginatedMovies
 import com.fawry.moviesdb.data.cache.Cache
 import com.fawry.moviesdb.data.cache.model.CachedMovie
+import com.fawry.moviesdb.databinding.FragmentMoviesBinding
 
 interface Category {
     fun setCacheCategoryValue(movie: CachedMovie): CachedMovie
     suspend fun apiCall(api: MoviesApi, page: Long): ApiPaginatedMovies
     fun getCache(cache: Cache): PagingSource<Int, CachedMovie>
     suspend fun getItemsCount(cache: Cache): Int
+    fun setupProgress(binding: FragmentMoviesBinding, b: Boolean)
 }

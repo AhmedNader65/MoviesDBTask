@@ -4,7 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="an_error_occurred">An error occurred!</string>
     <string name="no_more_movies">No more movies!</string>
-    <string name="overview">Overview</string>
+    <string name="overview">Overview: </string>
     <string name="original_name">Original title: </string>
     <string name="original_language">Original Language: </string>
     <string name="upcoming">Upcoming Movies</string>

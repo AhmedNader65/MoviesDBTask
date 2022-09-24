@@ -14,6 +14,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fawry.moviesdb.databinding.FragmentMoviesBinding
+import com.fawry.moviesdb.domain.model.category.Category
+import com.fawry.moviesdb.domain.model.category.PopularCategory
+import com.fawry.moviesdb.domain.model.category.TopRatedCategory
+import com.fawry.moviesdb.domain.model.category.UpcomingCategory
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,9 +45,9 @@ class MoviesFragment : Fragment() {
     }
 
     private fun setupUI() {
-        val popularAdapter = createAdapter()
-        val topRatedAdapter = createAdapter()
-        val upcomingAdapter = createAdapter()
+        val popularAdapter = createAdapter(PopularCategory())
+        val topRatedAdapter = createAdapter(TopRatedCategory())
+        val upcomingAdapter = createAdapter(UpcomingCategory())
         setupPopularRecyclerView(popularAdapter)
         setupTopRatedRecyclerView(topRatedAdapter)
         setupUpcomingRecyclerView(upcomingAdapter)
@@ -79,7 +83,7 @@ class MoviesFragment : Fragment() {
         }
     }
 
-    private fun createAdapter() = MoviesAdapter(
+    private fun createAdapter(category: Category) = MoviesAdapter(
         MoviesAdapter.MovieClickListener {
             findNavController().navigate(
                 MoviesFragmentDirections.actionMoviesFragmentToDetailsFragment(
@@ -90,9 +94,8 @@ class MoviesFragment : Fragment() {
     ).also {
 
         it.addLoadStateListener { loadState ->
+            category.setupProgress(binding, it.itemCount < 1)
 
-            binding.progressBar.isVisible =
-                loadState.mediator?.refresh is LoadState.Loading
             val errorState = when {
                 loadState.append is LoadState.Error -> loadState.append as LoadState.Error
                 loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error

@@ -12,7 +12,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/grediant">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -74,6 +75,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
                     android:text="@{movie.title}"
+                    android:textColor="@color/white"
                     android:textAlignment="viewStart"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
+                    android:textColor="@color/white"
                     android:textAlignment="viewStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imageContainer"
@@ -95,11 +98,13 @@
                 <TextView
                     android:id="@+id/overview_label"
                     style="@style/TextAppearance.MaterialComponents.Headline6"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
+                    android:background="?colorPrimary"
+                    android:padding="8dp"
                     android:text="@string/overview"
+                    android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imageContainer" />
 
@@ -108,7 +113,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="24dp"
+                    android:background="@drawable/stroke_boarder_round"
+                    android:padding="8dp"
                     android:text="@{movie.overview}"
+                    android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/overview_label" />
@@ -117,39 +125,63 @@
                     android:id="@+id/original_name_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="24dp"
+                    android:background="?colorPrimary"
+                    android:padding="8dp"
                     android:text="@string/original_name"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/overview" />
 
                 <TextView
                     android:id="@+id/original_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="24dp"
+                    android:padding="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/stroke_boarder_round"
                     android:text="@{movie.originalTitle}"
-                    app:layout_constraintStart_toEndOf="@id/original_name_label"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toEndOf="@id/barrier"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/overview" />
 
                 <TextView
                     android:id="@+id/original_language_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="24dp"
+                    android:background="?colorPrimary"
+                    android:padding="8dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/original_language"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/original_name" />
 
                 <TextView
                     android:id="@+id/original_language"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@{movie.originalLanguage}"
+                    android:textColor="@color/white"
+                    android:background="@drawable/stroke_boarder_round"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/barrier"
+                    app:layout_constraintTop_toBottomOf="@id/original_name" />
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="24dp"
-                    android:text="@{movie.originalLanguage}"
-                    app:layout_constraintStart_toEndOf="@id/original_language_label"
-                    app:layout_constraintTop_toBottomOf="@id/original_name" />
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="original_language_label,original_language_label"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ProgressBar
