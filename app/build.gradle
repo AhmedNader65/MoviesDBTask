@@ -99,5 +99,4 @@ dependencies {
 
     // Utils
     implementation "com.jakewharton.timber:timber:$timber_version"
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 }
