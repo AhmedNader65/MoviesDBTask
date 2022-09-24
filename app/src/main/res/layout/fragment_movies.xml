@@ -20,10 +20,11 @@
             <TextView
                 android:id="@+id/upcoming_label"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
+                android:padding="16dp"
+                android:textColor="?colorSurface"
+                android:background="?colorPrimary"
                 android:text="@string/upcoming"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -59,11 +60,12 @@
             <TextView
                 android:id="@+id/popular_label"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
+                android:padding="16dp"
+                android:background="?colorPrimary"
                 android:text="@string/popular"
+                android:textColor="?colorSurface"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/upcoming_barrier" />
 
@@ -97,11 +99,12 @@
             <TextView
                 android:id="@+id/toprated_label"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
+                android:padding="16dp"
+                android:background="?colorPrimary"
                 android:text="@string/toprated"
+                android:textColor="?colorSurface"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/popular_barrier" />
 
