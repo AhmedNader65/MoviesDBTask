@@ -12,7 +12,3 @@ data class ApiPaginatedMovies(
     @field:Json(name = "page") val currentPage: Int,
     @field:Json(name = "total_pages") val totalPages: Int
 )
-
-fun ApiPaginatedMovies.mapToDomain(): PaginatedMovies {
-    return PaginatedMovies(movies.map { it.mapToDomain() }, Pagination(currentPage, totalPages))
-}
