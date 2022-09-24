@@ -28,6 +28,7 @@ fun bindImageView(imageView: ImageView, image: String?) {
     Glide.with(imageView.context)
         .load(image?.ifEmpty { null })
         .error(R.drawable.placeholder)
+        .placeholder(R.drawable.placeholder)
         .centerCrop()
         .transition(DrawableTransitionOptions.withCrossFade())
         .into(imageView)

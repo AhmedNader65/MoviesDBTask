@@ -27,6 +27,7 @@
                     android:id="@+id/cover"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:scaleType="fitXY"
                     app:layout_constraintDimensionRatio="2.4:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -96,11 +97,11 @@
                     style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="?colorSurface"
                     android:layout_marginTop="24dp"
                     android:background="?colorPrimary"
                     android:padding="8dp"
                     android:text="@string/overview"
+                    android:textColor="?colorSurface"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imageContainer" />
 
@@ -120,12 +121,12 @@
                     android:id="@+id/original_name_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:background="?colorPrimary"
                     android:padding="8dp"
                     android:text="@string/original_name"
                     android:textColor="?colorSurface"
                     android:textStyle="bold"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/overview" />
 
@@ -133,26 +134,26 @@
                     android:id="@+id/original_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/stroke_boarder_round"
+                    android:padding="8dp"
                     android:text="@{movie.originalTitle}"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintStart_toEndOf="@id/barrier"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/barrier"
                     app:layout_constraintTop_toBottomOf="@id/overview" />
 
                 <TextView
                     android:id="@+id/original_language_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:background="?colorPrimary"
                     android:padding="8dp"
-                    android:layout_marginTop="16dp"
                     android:text="@string/original_language"
-                    android:textStyle="bold"
                     android:textColor="?colorSurface"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/original_name" />
 
@@ -160,21 +161,22 @@
                     android:id="@+id/original_language"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@{movie.originalLanguage}"
-                    android:background="@drawable/stroke_boarder_round"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
+                    android:background="@drawable/stroke_boarder_round"
+                    android:padding="8dp"
+                    android:text="@{movie.originalLanguage}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/barrier"
                     app:layout_constraintTop_toBottomOf="@id/original_name" />
+
                 <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/barrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="end"
-                    app:constraint_referenced_ids="original_language_label,original_language_label"/>
+                    app:constraint_referenced_ids="original_language_label,original_language_label" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ProgressBar

@@ -61,7 +61,7 @@ class MoviesFragment : Fragment() {
             adapter = moviesAdapter
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
+//            setHasFixedSize(true)
         }
     }
 
@@ -70,7 +70,7 @@ class MoviesFragment : Fragment() {
             adapter = moviesAdapter
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
+//            setHasFixedSize(true)
         }
     }
 
@@ -79,7 +79,7 @@ class MoviesFragment : Fragment() {
             adapter = moviesAdapter
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
+//            setHasFixedSize(true)
         }
     }
 
